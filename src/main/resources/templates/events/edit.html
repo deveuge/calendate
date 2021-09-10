@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.events})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/events.css}">
+</head>
+<body>
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<div id="wrapper">
+		<th:block th:include="fragments/navigation.html :: sidebar(events)"/>
+
+		<!-- EVENT FORM -->
+		<div id="event">
+			<div>
+				<main>
+					<h1 th:text="#{${isEdit} ? event.title.edit : event.title.create}">Create event type</h1>
+					<form id="event-form" method="POST" th:action="${isEdit} ? @{/events/edit} : @{/events/new}" th:object="${eventType}">
+						<fieldset class="tab">
+							<legend th:text="#{event.title.basic}">Basic information</legend>
+							<label for="name" th:text="#{form.label.event-name}">Event name</label>
+							<input type="text" id="name" name="name" th:field="*{name}" required />
+							<label for="url"  th:text="#{form.label.event-url}">Event URL</label>
+							<div class="divided-input">
+								<span>calenda.te/<strong th:text="${#authentication.getPrincipal().getUser().getUsername()}">username</strong>/</span>
+								<input type="text" id="url" name="url" th:field="*{url}" th:readonly="${isEdit}" required />
+							</div>
+							<label for="location" th:text="#{form.label.location}">Location</label>
+							<select id="location" name="location" th:field="*{location}" required 
+								th:onChange="document.getElementsByName('locationDetail')[0].placeholder = this[this.selectedIndex].dataset.placeholder">
+								<option th:each="locationOption : ${T(com.deveuge.calendate.enums.Location).values()}" 
+							        th:value="${locationOption}" th:text="#{'form.label.location.' + ${locationOption}}" th:attr="data-placeholder=#{'form.placeholder.location.' + ${locationOption}}"></option>
+							</select>
+							<label for="location-detail" th:text="#{form.label.location-detail}">Location detail</label>
+							<input type="text" id="location-detail" name="location-detail" th:placeholder="#{'form.placeholder.location.' + *{location != null ? location : 'PHYSICAL'}}" th:field="*{locationDetail}" />
+							<label for="description" th:text="#{form.label.description}">Description</label>
+							<textarea id="description" name="description" th:field="*{description}" rows="4"></textarea>
+							<label for="color" th:text="#{form.label.color}">Color</label>
+							<input id="color" name="color" type="color" th:field="*{color}">
+						</fieldset>
+						<fieldset class="tab">
+							<legend th:text="#{event.title.schedule}">Schedule event</legend>
+							<label for="duration" th:text="#{form.label.duration}">Duration</label>
+							<div class="divided-input">
+								<input type="number" id="duration" name="duration" th:field="*{duration}" required />
+								<span th:text="#{form.label.minutes}"></span>
+							</div>
+							<div class="date-input">
+								<label for="dateFrom" th:text="#{form.label.date-from}">Date from</label>
+								<input type="date" id="dateFrom" name="dateFrom" th:field="*{dateFrom}" required />
+							</div>
+							<div class="date-input">
+								<label for="dateTo" th:text="#{form.label.date-to}">Date to</label>
+								<input type="date" id="dateTo" name="dateTo" th:field="*{dateTo}" required />
+							</div>
+							<fieldset>
+								<legend th:text="#{event.title.availability}">Availability</legend>
+								<div id="availability-header">
+									<span th:text="#{form.label.from}">From</span>
+									<span th:text="#{form.label.to}">To</span>
+								</div>
+								<div th:each="day : *{availability}" class="input-availability">
+									<label th:text="#{${'form.label.' + day.key}}">Monday</label>
+									<input type="time" th:field="*{availability[__${day.key}__][0]}" th:value="${day.value[0]}"/>
+									<input type="time" th:field="*{availability[__${day.key}__][1]}" th:value="${day.value[1]}"/>
+								</div>
+							</fieldset>
+						</fieldset>
+						<fieldset class="tab">
+							<legend th:text="#{event.title.notifications}">Email notifications</legend>
+							<div class="input-checkbox">
+								<label for="confirmation" th:inline="text">
+									[[#{form.label.confirmation}]]
+									<em>[[#{form.label.confirmation.info}]]</em>
+								</label>
+								<input type="checkbox" id="confirmation" th:field="*{confirmation}"/>
+								<span></span>
+							</div>
+							<div class="input-checkbox">
+								<label for="reminder" th:inline="text">
+									[[#{form.label.reminder}]]
+									<em>[[#{form.label.reminder.info}]]</em>
+								</label>
+								<input type="checkbox" id="reminder" th:field="*{reminder}"/>
+								<span></span>
+							</div>
+						</fieldset>
+						<div>
+							<button type="button" id="btn-prev" th:title="#{form.button.previous}" onclick="changePage(-1, true)" class="fas fa-angle-left"></button>
+							<button type="button" id="btn-next" th:title="#{form.button.next}" onclick="changePage(1, true)" class="fas fa-angle-right"></button>
+							<button type="submit" id="btn-submit" th:text="#{form.button.save}">Save</button>
+						</div>
+						<th:block th:include="fragments/alerts.html :: validation"/>
+					</form>
+				</main>
+				<aside>
+					<img th:src="@{/static/img/illustrations/meeting.svg}"/>
+					<p th:text="#{event.description.basic}"></p>
+				</aside>
+				<aside>
+					<img th:src="@{/static/img/illustrations/time.svg}"/>
+					<p th:text="#{event.description.schedule}"></p>
+				</aside>
+				<aside>
+					<img th:src="@{/static/img/illustrations/email.svg}"/>
+					<p th:text="#{event.description.notifications}"></p>
+				</aside>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+	<script>
+		(function() {
+			showTab(0, true);
+		})();
+	</script>
+</body>
+</html>

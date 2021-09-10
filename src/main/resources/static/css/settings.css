@@ -1,0 +1,70 @@
+/* SETTINGS */
+#settings > * {
+    flex-basis: 0;
+}
+
+#settings > aside {
+	flex-grow: 1.5;
+    height: 45vh;
+    z-index: -1;
+    position: relative;
+}
+
+#settings > main {
+    padding: 2rem;
+    margin: 3vw;
+	flex-grow: 2;
+    background-color: var(--container-color);
+    box-shadow: 0 1px 5px -2px var(--opacity-color);
+}
+
+#settings > main > h1 {
+	margin: 0;
+}
+
+.calendar-connection {
+	display: flex;
+	background-color: var(--background-color);
+    margin-top: 0.5rem;
+	padding: 1rem;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.calendar-connection > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-connection > div > span {
+	font-size: 0.9em;
+	opacity: 0.75;
+}
+
+.calendar-connection > .button {
+	margin: 0;
+	font-size: 0.8rem;
+	text-decoration: none;
+}
+
+#settings > main > form > button {
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	#settings {
+		display: flex;
+		justify-content: center;
+	    align-items: center;
+	}
+
+	#settings > aside {
+		height: auto;
+	}
+}
+
+
+
+
+
+

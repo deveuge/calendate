@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.home})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/index.css}">
+</head>
+<body>
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<main id="index">
+		<th:block th:include="fragments/navigation.html :: simpleSidebar"/>
+		<header>
+			<div>
+				<h1 th:text="#{app.name}"></h1>
+				<h2 th:text="#{home.title}">Easy scheduling ahead</h2>
+				<h3 th:text="#{home.subtitle}">Calendate is your hub for scheduling meetings professionally and efficiently, eliminating the hassle of back-and-forth emails so you can get back to work.</h3>
+				<a th:href="@{/login}" th:text="#{home.start}"></a>
+			</div>
+		</header>
+		<aside>
+			<img th:src="@{/static/img/illustrations/calendar.svg}"/>
+		</aside>
+	</main>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+</body>
+</html>

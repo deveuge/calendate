@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.events})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/confirmed.css}">
+</head>
+<body th:style="${color != null ? '--main-color: ' + color : ''}">
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<div id="wrapper">
+		<th:block sec:authorize="isAuthenticated()" th:include="fragments/navigation.html :: sidebar(events)"/>
+		<th:block sec:authorize="isAnonymous()" th:include="fragments/navigation.html :: simpleSidebar"/>
+		<div id="confirmed">
+			<main>
+				<img th:src="@{/static/img/illustrations/confirmed.svg}"/>
+				<h1 th:text="#{booking.ok.title}">Event booked successfully</h1>
+				<p th:text="#{booking.ok.subtitle(${date})}">The event has been booked for the date {0} correctly.</p>
+				<p th:if="${confirmation}" th:text="#{booking.ok.confirmation}">A confirmation email has been sent to the contact email provided.</p>
+				<p th:if="${reminder}" th:text="#{booking.ok.reminder}">A reminder email will be sent before the event starts.</p>
+				<a th:href="@{/}" th:text="#{booking.ok.button}"></a>
+			</main>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+</body>
+</html>

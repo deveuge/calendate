@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="sidebar(activeTab)">
+    <nav>
+		<a th:href="@{/}"><img th:src="@{/static/img/logo.svg}"/></a>
+		<button type="button" class="fas fa-bars" onClick="openMenu(this)"></button>
+		<ul>
+			<li><a th:class="${activeTab == 'dashboard'}? 'active' : ''" th:href="@{/}" th:inline="text"><span class="far fa-calendar-alt"></span>[[#{title.calendar}]]</a></li>
+			<li><a th:class="${activeTab == 'events'}? 'active' : ''" th:href="@{/events}" th:inline="text"><span class="fas fa-clipboard-list"></span>[[#{title.events}]]</a></li>
+			<li><a th:class="${activeTab == 'settings'}? 'active' : ''" th:href="@{/settings}" th:inline="text"><span class="fas fa-cog"></span>[[#{title.settings}]]</a></li>
+			<li><a th:href="@{#}" th:inline="text" onclick="document.getElementById('form-logout').submit()"><span class="fas fa-sign-out-alt"></span>[[#{title.logout}]]</a></li>
+			<li><a th:href="@{/about}"><small th:inline="text">© 2021 - [[#{title.about}]]</small></a></li>
+		</ul>
+	</nav>
+	<form th:action="@{/logout}" id="form-logout" method="POST">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    </form>
+</th:block>
+
+<th:block th:fragment="simpleSidebar">
+    <nav>
+		<a th:href="@{/}"><img th:src="@{/static/img/logo.svg}"/></a>
+	</nav>
+</th:block>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.about})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/about.css}">
+</head>
+<body>
+
+	<div id="wrapper">
+		<th:block sec:authorize="isAuthenticated()" th:include="fragments/navigation.html :: sidebar(about)"/>
+		<th:block sec:authorize="isAnonymous()" th:include="fragments/navigation.html :: simpleSidebar"/>
+
+		<!-- SETTINGS -->
+		<div id="about">
+			<main>
+				<h1>About Calendate</h1>
+				<blockquote>Lorem ipsum</blockquote>
+
+				<ul title="Technologies">
+					<li>Spring Boot</li>
+					<ul>
+						<li>Spring Boot Web</li>
+						<li>Spring Boot Security</li>
+						<li>Spring Boot Mail</li>
+						<li>Spring Boot Data JPA + JDBC</li>
+						<li>Spring Boot Validation</li>
+						<li>Spring Boot Devtools</li>
+						<li>Spring Boot Thymeleaf</li>
+					</ul>
+				</ul>
+
+				<ul title="Resources">
+					<li><a href="https://storyset.com/people">People illustrations by Storyset</a></li>
+					<li><a href="https://fontawesome.com">Font Awesome by Dave Gandy</a></li>
+					<li><a href="https://fonts.google.com">Roboto Font and Material Icons by Google</a></li>
+				</ul>
+			</main>
+			<aside>
+				<img th:src="@{/static/img/illustrations/about.svg}"/>
+			</aside>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+</body>
+</html>

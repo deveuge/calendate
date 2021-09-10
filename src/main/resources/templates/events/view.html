@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.events})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/calendar.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/booking.css}">
+</head>
+<body th:style="${eventType.color != null ? '--main-color: ' + eventType.color : ''}">
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<div id="wrapper">
+		<th:block sec:authorize="isAuthenticated()" th:include="fragments/navigation.html :: sidebar(events)"/>
+		<th:block sec:authorize="isAnonymous()" th:include="fragments/navigation.html :: simpleSidebar"/>
+		<div id="booking">
+			<div>
+				<aside>
+					<h1 th:text="${eventType.name}">Event name</h1>
+					<fieldset>
+						<legend th:text="#{event.title.basic}">Basic information</legend>
+						<ul id="event-info">
+							<li>
+								<span class="fas fa-fw fa-user-circle"></span>
+								<div>
+									<strong th:text="#{form.label.organizer}"></strong>
+									<span th:text="${eventType.username}">Name</span>
+								</div>
+							</li>
+							<li>
+								<span class="fas fa-fw fa-clock"></span>
+								<div>
+									<strong th:text="#{form.label.duration}"></strong>
+									<span th:text="${eventType.duration} + ' min'">30 min</span>
+								</div>
+							</li>
+							<li>
+								<span class="fas fa-fw fa-map-marker-alt"></span>
+								<div>
+									<strong th:text="#{form.label.location}"></strong>
+									<span th:text="#{'form.label.location.' + ${eventType.location}} + ' - ' + ${eventType.locationDetail}">Phone call</span>
+								</div>
+							</li>
+						</ul>
+					</fieldset>
+					<fieldset>
+						<legend th:text="#{form.label.description}">Description</legend>
+						<p th:text="${eventType.description}"></p>
+					</fieldset>
+				</aside>
+				<main>
+					<div id="calendar-wrapper" class="tab">
+						<div id="calendar-header">
+							<h1 id="monthAndYear">Jan 2022</h1>
+					        <button onclick="previous()" class="fas fa-angle-left"></button>
+					        <button onclick="next()" class="fas fa-angle-right"></button>
+					    </div>
+					    <h4 th:text="#{booking.subtitle}"></h4>
+						<table class="calendar">
+							<thead>
+							<tr>
+								<th:block th:each="i: ${#numbers.sequence(1, 7)}">
+				            		<th th:text="#{|calendar.day.${i}|}">Mon</th>
+				            	</th:block>
+							</tr>
+							</thead>
+							<tbody id="calendar-body"></tbody>
+						</table>
+						<div id="calendar-footer">
+							<label for="month" th:text="#{calendar.jump}">Jump To:</label>
+							<select name="month" id="month" onchange="jump()">
+								<th:block th:each="i: ${#numbers.sequence(1, 12)}">
+				            		<option th:value="${i-1}" th:text="#{|calendar.month.${i}|}">Jan</option>
+				            	</th:block>
+							</select>
+		
+							<label for="year"></label>
+							<input type="number" name="year" id="year" onchange="jump()" min="1900" max="2100" />
+						</div>
+					</div>
+					
+					<form id="event-form" method="POST" th:action="@{/__${username}__/__${url}__}" th:object="${event}" style="display: none">
+						<fieldset class="tab">
+							<legend th:text="#{book.title.hour}">Event hour</legend>
+					    	<h4 th:text="#{booking.subtitle.hour}"></h4>
+							<input id="date" type="hidden" th:field="*{date}" onchange="updateInput(this.id, this.value)"/>
+							<input id="hour" type="hidden" th:field="*{hour}" onchange="updateInput(this.id, this.value)"/>
+							<div id="hours-list">
+							</div>
+						</fieldset>
+						
+						<fieldset class="tab">
+							<legend th:text="#{book.title.contact}">Contact information</legend>
+							<label for="name" th:text="#{form.label.name}">Your name</label>
+							<input type="text" id="name" name="name" required th:field="*{name}" onchange="updateInput(this.id, this.value)" />
+							<label for="email" th:text="#{form.label.email}">Your email</label>
+							<input type="email" id="email" name="email" required th:field="*{email}" onchange="updateInput(this.id, this.value)" />
+							<label for="phone" th:text="#{form.label.phone}">Your phone</label>
+							<input type="text" id="phone" name="phone" required th:field="*{phone}" onchange="updateInput(this.id, this.value)" />
+						</fieldset>
+						
+						<fieldset class="tab">
+							<legend th:text="#{book.title.confirm}">Confirm your reservation</legend>
+							<label for="date-confirm" th:text="#{book.title.day}">Event day</label>
+							<input id="date-confirm" type="text" readonly="readonly"/>
+							<label for="hour-confirm" th:text="#{book.title.hour}">Event hour</label>
+							<input id="hour-confirm" type="text" readonly="readonly"/>
+							<label for="name-confirm" th:text="#{form.label.name}">Your name</label>
+							<input type="text" id="name-confirm" name="name-confirm" readonly="readonly" />
+							<label for="email-confirm" th:text="#{form.label.email}">Your email</label>
+							<input type="email" id="email-confirm" name="email-confirm" readonly="readonly" />
+							<label for="phone-confirm" th:text="#{form.label.phone}">Your phone</label>
+							<input type="text" id="phone-confirm" name="phone-confirm" readonly="readonly" />
+							<p th:text="#{book.description.confirm}"></p>
+						</fieldset>
+						
+						<div id="control-buttons">
+							<button type="button" id="btn-prev" th:title="#{form.button.previous}" onclick="changePage(-1)" class="fas fa-angle-left"></button>
+							<button type="button" id="btn-next" th:title="#{form.button.next}" onclick="changePage(1)" class="fas fa-angle-right hidden"></button>
+							<button type="submit" id="btn-submit" th:text="#{form.button.book}">Book</button>
+						</div>
+					</form>
+				</main>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    let username = /*[[${username}]]*/ '';
+	    let url = /*[[${url}]]*/ '';
+	/*]]>*/
+	</script>
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/booking.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/calendar.js}"></script>
+	<script>
+		(function() {
+			showTab(0);
+		})();
+	</script>
+</body>
+</html>

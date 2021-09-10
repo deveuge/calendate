@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.events})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/events.css}">
+</head>
+<body>
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<th:block th:include="fragments/alerts.html :: popup(#{event.confirm.delete}, #{form.button.delete})"/>
+	<div id="wrapper">
+		<th:block th:include="fragments/navigation.html :: sidebar(events)"/>
+
+		<!-- EVENT TYPES -->
+		<div id="events">
+			<a th:href="@{/events/new}" th:inline="text">
+				<span class="fas fa-plus-circle"></span>
+				[[#{form.button.event.new}]]
+			</a>
+			<div th:each="eventType : ${eventTypes}" th:style="${eventType.color != null ? '--main-color: ' + eventType.color : ''}">
+				<h2 th:text="${eventType.name}">Event name</h2>
+				<em th:text="${eventType.duration} + 'min · ' + #{'form.label.location.' + ${eventType.location}}">40 min · Skype</em>
+				<p th:text="${eventType.description}">Description</p>
+				<div>
+					<a th:href="@{/{username}/{eventUrl}(username=${#authentication.getPrincipal().getUser().getUsername()}, eventUrl=${eventType.eventTypeId.url})}" th:text="${'/' + eventType.eventTypeId.url}">/myevent</a>
+					<a th:href="@{/events/{eventUrl}(eventUrl=${eventType.eventTypeId.url})}" class="fas fa-fw fa-edit"></a>
+					<a href="#" th:onclick="openModal([[${eventType.eventTypeId.url}]])" class="fas fa-fw fa-trash"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<form id="deleteEventType" th:action="@{/events/DATA/delete}" method="POST"></form>
+	
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+	<script th:inline="javascript">
+		function confirmModal() {
+			var form = document.getElementById('deleteEventType');
+			var data = modal.getAttribute('data-attr');
+			form.action = form.action.replace("DATA", data);
+			form.submit();
+		}
+	</script>
+</body>
+</html>

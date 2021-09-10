@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+	<title th:text="#{app.name} + ' | ' + ${title}"></title>
+	<link rel="icon" type="image/png" th:href="@{/static/img/favicon.svg}" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/fontawesome/all.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+	
+	<script type="text/javascript" th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
+</head>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.login})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/login.css}">
+</head>
+<body>
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<main id="login">
+		<nav>
+			<a th:href="@{/}"><img th:src="@{/static/img/logo.svg}"/></a>
+			<button type="button" th:classappend="${register} ?: active" onClick="toggleSignIn(this, true)" th:inline="text">
+				<img th:src="@{/static/img/icons/login.svg}"/>
+				[[#{login.signin}]]
+			</button>
+			<button type="button" th:classappend="${register} ? active : ''" onClick="toggleSignIn(this, false)" th:inline="text">
+				<img th:src="@{/static/img/icons/register.svg}"/>
+				[[#{login.signup}]]
+			</button>
+		</nav>
+		<div>
+			<img th:src="@{/static/img/illustrations/login.svg}"/>
+		</div>
+		<form id="signin-form" th:classappend="${register} ?: active"  method="POST" th:action="@{/login}">
+			<fieldset>
+				<h1 th:text="#{login.signin.title}"></h1>
+				<h3 th:text="#{login.signin.subtitle}"></h3>
+				<label for="username-or-email" th:text="#{form.label.username-or-email}"></label>
+				<input type="text" name="username-or-email" id="username-or-email" autofocus required />
+				<label for="password-login" th:text="#{form.label.password}"></label>
+				<input type="password" name="password-login" id="password-login" required />
+				<button type="submit" th:text="#{login.signin}"></button>
+			</fieldset>
+		</form>
+		<form id="signup-form" th:classappend="${register} ? active : ''" method="POST" th:action="@{/register}" th:object="${user}">
+			<fieldset>
+				<h1 th:text="#{login.signup.title}"></h1>
+				<h3 th:text="#{login.signup.subtitle}"></h3>
+				<label for="username" th:text="#{form.label.username}"></label>
+				<input type="text" id="username" name="username" th:field="*{username}" required />
+				<label for="email" th:text="#{form.label.email}"></label>
+				<input type="email" id="email" name="email" th:field="*{email}" required />
+				<label for="password" th:text="#{form.label.password}"></label>
+				<input type="password" id="password" name="password" th:field="*{password}" required />
+				<label for="password-repeat" th:text="#{form.label.password-repeat}"></label>
+				<input type="password" name="password-repeat" id="password-repeat" th:field="*{repeatPassword}" required/>
+				<button type="submit" th:text="#{login.signup}"></button>
+				
+				<th:block th:include="fragments/alerts.html :: validation"/>
+			</fieldset>
+		</form>
+	</main>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="alerts">
+	<div id="alert" th:classappend="(${alertClass} ? ${alertClass} : '')" th:if="${alertMessage}" th:text="#{${alertMessage}}"></div>
+</th:block>
+
+<th:block th:fragment="validation">
+	<div id="alert" class="error" th:if="${#fields.hasAnyErrors()}" th:text="${#fields.allErrors()[0]}"></div>
+</th:block>
+
+<th:block th:fragment="popup(popupMessage, okMessage)">
+	<div id="modal">
+		<div id="modal-content">
+			<p th:text="${popupMessage}"></p>
+			
+			<div id="modal-footer">
+				<button onClick="closeModal()" th:text="#{form.button.cancel}">Cancel</button>
+				<button th:text="${okMessage}" onclick="confirmModal();">OK</button>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>

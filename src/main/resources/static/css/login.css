@@ -1,0 +1,109 @@
+/* LOGIN */
+#login {
+	display: flex;
+	flex-direction: column;
+}
+
+#login > * {
+	flex-grow: 1;
+    flex-basis: 0;
+}
+
+#login > nav > button {
+	background: var(--container-color);
+	border: none;
+	text-align: center;
+	padding: 0.5em;
+	line-height: 1.5rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: var(--font-color);
+	cursor: pointer;
+}
+
+#login > nav > button.active {
+	color: var(--container-color);
+	background-color: var(--font-color);
+}
+
+#login > nav > button:hover {
+	color: var(--container-color);
+	background-color: var(--main-color);
+}
+
+#login > nav > button > img {
+	display: block;
+	margin: 0 auto;
+	width: 2rem;
+}
+
+#login > nav > button.active > img, 
+#login > nav > button:hover > img {
+	filter: brightness(5);
+}
+
+
+#login > div {
+    height: 35vh;
+    z-index: -1;
+}
+
+#login > form  {
+	display: none;
+}
+
+#login > form.active {
+	display: flex;
+}
+
+#login > form > fieldset {
+	display: flex;
+    flex-direction: column;
+    min-width: 80%;
+    margin: auto;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    border: none;
+    background-color: var(--container-color);
+    box-shadow: 0 1px 5px -2px var(--opacity-color);
+}
+
+#login > form > fieldset > h1 {
+	margin: 0;
+}
+
+#login > form > fieldset > h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-weight: normal;
+	opacity: 0.5;
+	font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+	#login {
+		flex-direction: row;
+	}
+
+	#login > * {
+		height: 100vh;
+	}
+
+	#login > div {
+		display: flex;
+	    align-items: center;
+	    height: 100vh;
+		overflow: hidden;
+		max-width: 600px;
+		margin-left: auto;
+	}
+
+	#login > form {
+		max-width: 600px;
+		margin-right: auto;
+	}
+
+	#login > form > fieldset {
+		margin-bottom: auto;
+	}
+}

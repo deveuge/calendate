@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="fragments/head.html :: head(#{title.settings})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/static/css/settings.css}">
+</head>
+<body>
+	<th:block th:include="fragments/alerts.html :: alerts"/>
+	<div id="wrapper">
+		<th:block th:include="fragments/navigation.html :: sidebar(settings)"/>
+
+		<!-- SETTINGS -->
+		<div id="settings">
+			<aside>
+				<img th:src="@{/static/img/illustrations/settings.svg}"/>
+			</aside>
+			<main>
+				<h1 th:text="#{settings.edit}">Edit settings</h1>
+				<form method="POST" th:action="@{/settings}" th:object="${user}">
+					<fieldset>
+						<legend th:text="#{settings.account}">Account information</legend>
+						<label for="username" th:text="#{form.label.username}">Username</label>
+						<input type="text" id="username" name="username" th:field="*{username}" required disabled />
+						<label for="name" th:text="#{form.label.name}">Name</label>
+						<input type="text" id="name" name="name" th:field="*{name}" required />
+						<label for="email" th:text="#{form.label.email}">Email</label>
+						<input type="email" id="email" name="email" th:field="*{email}" required />
+						<label for="password" th:text="#{form.label.password}">Password</label>
+						<input type="password" id="password" name="password" th:field="*{password}"/>
+						<label for="password-repeat" th:text="#{form.label.password-repeat}">Repeat password</label>
+						<input type="password" id="password-repeat" name="password-repeat" th:field="*{repeatPassword}" />
+						<label for="language" th:text="#{form.label.language}">Language</label>
+						<select th:field="*{locale}" id="language" name="language">
+						    <option th:value="en-US" th:text="English"></option>
+						    <option th:value="es-ES" th:text="Español"></option>
+						</select>
+					</fieldset>
+					<button type="submit" th:text="#{form.button.save}">Save</button>
+					<th:block th:include="fragments/alerts.html :: validation"/>
+				</form>
+			</main>
+		</div>
+	</div>
+
+	<script type="text/javascript" th:src="@{/static/js/script.js}"></script>
+</body>
+</html>
