@@ -21,7 +21,7 @@
 							<input type="text" id="name" name="name" th:field="*{name}" required />
 							<label for="url"  th:text="#{form.label.event-url}">Event URL</label>
 							<div class="divided-input">
-								<span>calenda.te/<strong th:text="${#authentication.getPrincipal().getUser().getUsername()}">username</strong>/</span>
+								<span>calen-date.herokuapp.com/<strong th:text="${#authentication.getPrincipal().getUser().getUsername()}">username</strong>/</span>
 								<input type="text" id="url" name="url" th:field="*{url}" th:readonly="${isEdit}" required />
 							</div>
 							<label for="location" th:text="#{form.label.location}">Location</label>
