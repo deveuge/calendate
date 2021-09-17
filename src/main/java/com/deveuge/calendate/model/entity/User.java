@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.deveuge.calendate.enums.Role;
 
 @Entity
-@Table
+@Table(name = "user_data")
 public class User {
 
 	@Id
