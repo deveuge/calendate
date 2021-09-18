@@ -79,7 +79,6 @@ public class EventService {
 		Join<Object, Object> join2 = (Join<Object, Object>) join.fetch("eventTypeId");
 		Join<Object, Object> join3 = (Join<Object, Object>) join2.fetch("user");
 		
-		// TODO: Fix for PostgreSQL
 		Expression<Long> prod = cb.prod(cb.function("date_part", Long.class, cb.literal("epoch"), root.get("dateFrom")), 1000L);
 		Expression<Long> diff = cb.diff(prod, new Date().getTime());
 		cq
