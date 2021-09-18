@@ -16,7 +16,7 @@ public interface IEventDAO extends CrudRepository<Event, Long> {
 	List<Event> findAllByEventType_EventTypeIdUserUsernameAndEventType_EventTypeIdUrl(String username, String url);
 	List<Event> findAllByEventType_EventTypeIdUserUsernameAndDateFromBetweenOrderByDateFrom(String username, Date dateFrom, Date dateTo);
 	
-	@Query(value = "SELECT to_char(e.dateFrom, 'dd'), COUNT(e.id) FROM Event e WHERE (dateFrom >= :dateFrom AND dateFrom <= :dateTo) AND username_id = :username GROUP BY YEAR(e.dateFrom), MONTH(e.dateFrom), DAY(e.dateFrom)")
+	@Query(value = "SELECT to_char(e.dateFrom, 'dd'), COUNT(e.id) FROM Event e WHERE (dateFrom >= :dateFrom AND dateFrom <= :dateTo) AND username_id = :username GROUP BY e.dateFrom")
 	List<Object[]> countAllBetweenDates(@Param(value = "username") String username, @Param(value = "dateFrom") Date dateFrom, @Param(value = "dateTo") Date dateTo);
 	
 	@Query(value = "SELECT new com.deveuge.calendate.view.dto.AvailableHoursDTO(to_char(e.dateFrom, 'HH:mm'), to_char(e.dateTo, 'HH:mm')) FROM EventType t " + 

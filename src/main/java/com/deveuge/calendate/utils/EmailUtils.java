@@ -1,16 +1,24 @@
 package com.deveuge.calendate.utils;
 
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 public class EmailUtils {
 	
-	public static String readBodyFile(final URI path) {
+	public static String readBodyFile(final String path) {
         try {
-            final byte[] encoded = Files.readAllBytes(Paths.get(path));
-            return new String(encoded, Charset.forName("UTF-8"));
+        	
+        	InputStream inputStream = EmailUtils.class.getClassLoader().getResourceAsStream(path);
+
+            String body = new BufferedReader(
+              new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
+
+            return body;
         }
         catch(final Exception e) {
         	String msj = "Error while reading text file " + path;

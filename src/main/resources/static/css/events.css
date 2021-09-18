@@ -154,6 +154,7 @@
     color: var(--opacity-color);
     background: var(--background-color);
     padding: 0 0.5rem;
+    white-space: nowrap;
 }
 
 .divided-input > input:read-only {

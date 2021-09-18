@@ -1,6 +1,5 @@
 package com.deveuge.calendate.model.service;
 
-import java.net.URISyntaxException;
 import java.util.Locale;
 
 import javax.mail.MessagingException;
@@ -56,20 +55,15 @@ public class EmailService {
 	}
 
 	private String buildEmailBody(EmailType type, Event event, Locale locale) {
-		try {
-			String body = EmailUtils.readBodyFile(ClassLoader.getSystemResource("EmailTemplate.html").toURI());
-			body = body
-				.replace("${Title}", getMessage("email.subject." + type.toString(), locale))
-				.replace("${Body}", getMessage("email.body." + type.toString(), locale))
-				.replace("${List}", buildEmailDetails(type, event, locale))
-				.replace("${Legal}", getMessage("email.legal.disclaimer", locale))
-				.replace("${Notice}", getMessage("email.notice." + type.toString(), locale))
-				.replace("${CalendateURL}", calendateURL);
-			return body;
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			return null;
-		}
+		String body = EmailUtils.readBodyFile("EmailTemplate.html");
+		body = body
+			.replace("${Title}", getMessage("email.subject." + type.toString(), locale))
+			.replace("${Body}", getMessage("email.body." + type.toString(), locale))
+			.replace("${List}", buildEmailDetails(type, event, locale))
+			.replace("${Legal}", getMessage("email.legal.disclaimer", locale))
+			.replace("${Notice}", getMessage("email.notice." + type.toString(), locale))
+			.replace("${CalendateURL}", calendateURL);
+		return body;
 	}
 	
 	private String buildEmailDetails(EmailType type, Event event, Locale locale) {

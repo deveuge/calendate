@@ -173,7 +173,7 @@ public class CalendarController {
 	private String[] getAvailableHours(LocalTime timeFrom, LocalTime timeTo, int duration, List<AvailableHoursDTO> reservedHours) {
 		List<String> availableHours = new ArrayList<>();
 		
-		while(timeFrom.plusMinutes(duration).isBefore(timeTo)) {
+		while(timeFrom.plusMinutes(duration).isBefore(timeTo) || timeFrom.plusMinutes(duration) == timeTo) {
 			// If next day, stop adding hours
 			if(timeFrom.plusMinutes(duration).isAfter(LocalTime.parse("23:59", TIME_FORMATTER)) || 
 					timeFrom.plusMinutes(duration).isBefore(timeFrom)) {
