@@ -41,9 +41,10 @@ function showDayEvents() {
 function paintDetailsDay(event) {
 	let dateFrom = new Date(event.dateFrom);
 	let dateTo = new Date(event.dateTo);
+	const dateOptions = { timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hour12: false };
 	
-	let timeFrom = formatTime(dateFrom.getHours()) + ":" + formatTime(dateFrom.getMinutes());
-	let timeTo = formatTime(dateTo.getHours()) + ":" + formatTime(dateTo.getMinutes());
+	let timeFrom = dateFrom.toLocaleTimeString('en-US', dateOptions);
+	let timeTo = dateTo.toLocaleTimeString('en-US', dateOptions);
 	
 	let dayHTML = `
 		<li>

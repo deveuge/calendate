@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,10 +82,8 @@ public class EventService {
 		
 		Expression<Long> prod = cb.prod(cb.function("date_part", Long.class, cb.literal("epoch"), root.get("dateFrom")), 1000L);
 		Expression<Long> diff = cb.diff(prod, new Date().getTime());
-		cq
-			.where(cb.equal(join.get("reminderEmail"), true))
-			.where(cb.between(diff, 0L, 60 * 60 * 1000L))
-		;
+		Predicate whereCondition = cb.and(cb.equal(join.get("reminderEmail"), true), cb.between(diff, 0L, 60 * 60 * 1000L));
+		cq.where(whereCondition);
 		 
 		TypedQuery<Event> query = em.createQuery(cq);
 		return query.getResultList();

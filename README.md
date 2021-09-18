@@ -56,3 +56,4 @@ Calendate is a web application based on Spring Boot and Thymeleaf that makes eve
 * To send reminder emails, a scheduled task is established every hour that consults the upcoming events to occur in the next hour and the email is sent to both the organizer and the attendee.
 * The mailing is set within an asynchronous method so as not to influence the normal flow of the page. 
 * Although initially the application was designed to use MySQL as a database, with the deployment in Heroku it was necessary to migrate to PostgreSQL.
+* Currently no distinction is made between different time zones, so UTC is used.

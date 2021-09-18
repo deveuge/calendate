@@ -1,6 +1,5 @@
 package com.deveuge.calendate.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,15 +10,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.deveuge.calendate.model.service.UserService;
 import com.deveuge.calendate.security.UserDetailsServiceImpl;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	// TODO: Delete
-	@Autowired
-	private UserService userService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -33,10 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.invalidSessionUrl("/")
 			.maximumSessions(2)
 			.expiredUrl("/");
-		
-		// TODO: Delete
-        //userService.save(new User("admin", "Administrador", "admin@email.com", null, new BCryptPasswordEncoder().encode("admin"), Role.ADMIN, true));
-        //userService.save(new User("user", "Usuario", "user@email.com", null, new BCryptPasswordEncoder().encode("user"), Role.USER, true));
 	}
 	
 	@Override
