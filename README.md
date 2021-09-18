@@ -1,5 +1,5 @@
 # Calendate (WIP)
-![Calendate Banner](Preview.jpg)
+![Calendate Banner](Preview.png)
 _Spring Boot App  - Web application for event management_
 
 [![View live project](https://img.shields.io/badge/View%20live%20project-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://calen-date.herokuapp.com)
